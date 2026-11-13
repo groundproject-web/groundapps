@@ -1,0 +1,15 @@
+Nome do comprador;E-mail;Telefone;CPF;Data do pedido;Total pago;Produto;Status do frete
+Ana Prado;ana@example.com;(21) 99999-0001;111.222.333-44;10/01/2026;R$ 100,00;Whey 900g;Entregue
+Ana Prado;ana@example.com;21999990001;111.222.333-44;20/02/2026;100.00;Whey 900g;Entregue
+ANA PRADO;ANA@example.com;+55 21 99999-0001;111.222.333-44;2026-04-01;R$ 100,00;Whey 900g;Entregue
+Ana Prado;ana@example.com;21999990001;111.222.333-44;01/06/2026;R$ 100,00;Whey 900g;Entregue
+Bia Costa;bia@example.com;21999990002;222.333.444-55;01/03/2026;R$ 200,00;Creatina 300g;Entregue
+Bia Costa;bia@example.com;21999990002;222.333.444-55;31/03/2026;R$ 100,00;Creatina 300g;Entregue
+Caio Reis;caio@example.com;21999990003;333.444.555-66;01/12/2025;R$ 50,00;Creatina 300g;Entregue
+Duda Melo;duda@example.com;21999990004;444.555.666-77;15/06/2026;R$ 80,00;Creatina 300g;Em trânsito
+Edu Lima;edu@example.com;21999990005;555.666.777-88;20/05/2026;R$ 120,00;Whey 900g;Entregue
+Edu L.;edu@example.com;21999990005;555.666.777-88;20/06/2026;R$ 120,00;Whey 900g;Entregue
+Fabi Nunes;fabi@example.com;21999990006;666.777.888-99;01/11/2025;R$ 90,00;Creatina 300g;Entregue
+Gabi Rocha;gabi@example.com;21999990007;777.888.999-00;05/01/2026;R$ 60,00;Creatina 300g;Entregue
+Gabriela R.;gabi.r@example.com;21999990007;777.888.999-00;05/02/2026;R$ 60,00;Creatina 300g;Entregue
+;;;;sem data;R$ 10,00;;

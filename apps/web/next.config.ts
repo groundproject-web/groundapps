@@ -1,0 +1,21 @@
+import type { NextConfig } from "next";
+
+const config: NextConfig = {
+  transpilePackages: ["@ground/core", "@ground/ui", "@ground/ai"],
+  serverExternalPackages: ["@electric-sql/pglite", "postgres"],
+  poweredByHeader: false,
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Frame-Options", value: "DENY" },
+        ],
+      },
+    ];
+  },
+};
+
+export default config;

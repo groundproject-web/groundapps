@@ -1,0 +1,36 @@
+{
+  "name": "ground-apps",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Ground Marco Zero + Ground Sketch — plataforma da Ground Project",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @ground/web",
+    "build": "npm run build -w @ground/web",
+    "start": "npm run start -w @ground/web",
+    "typecheck": "tsc -p packages/core && tsc -p packages/ai && tsc -p packages/ui && tsc -p apps/web",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "seed:csv": "tsx packages/core/scripts/write-seed-csv.ts",
+    "db:migrate": "tsx apps/web/scripts/migrate.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6",
+    "@electric-sql/pglite": "^0.5.16",
+    "eslint": "^9.39.0",
+    "typescript-eslint": "^8.46.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "vitest": "^5.1.0"
+  }
+}

@@ -1,0 +1,214 @@
+/*
+ * Design system "Terra Neutra" — tokens extraídos dos protótipos (docs/prototipos).
+ * Campo Carvão, traço Bone. A gramática do traço carrega o estado de cada dado:
+ *   fato = sólido · hipótese = tracejado · gargalo = hachura · sem informação = pontilhado/vazado
+ */
+@theme {
+  --color-vazio: #0a0a0a;
+  --color-carvao: #2a2724;
+  --color-sombra: #6b675d;
+  --color-duna: #b8b1a2;
+  --color-piedra: #e0dac9;
+  --color-bone: #f2efe7;
+  --color-deep: #211f1c;
+  --color-panel: #33302c;
+  --color-phone: #1b1917;
+  --color-wa: #e7e1d3;
+
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Montserrat", "Segoe UI", Arial, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+:root {
+  --rule: rgba(242, 239, 231, 0.12);
+  --rule-strong: rgba(242, 239, 231, 0.3);
+  --hover: rgba(242, 239, 231, 0.07);
+  --hatch: repeating-linear-gradient(-48deg, rgba(242, 239, 231, 0.09) 0 1.5px, transparent 1.5px 9px);
+  --hatch-strong: repeating-linear-gradient(-48deg, var(--color-bone) 0 1.2px, transparent 1.2px 4px);
+  color-scheme: dark;
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--color-carvao);
+    color: var(--color-bone);
+  }
+  body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-bone);
+    outline-offset: 2px;
+  }
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+@layer components {
+  /* rótulo mono em caixa alta (contraste AA sobre carvão: duna 7.4:1) */
+  .lbl {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-duna);
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+  .say {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+  .say-big {
+    font-size: clamp(26px, 3vw, 38px);
+  }
+  .h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(28px, 3.4vw, 42px);
+    line-height: 1.04;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+  }
+  .sub {
+    color: var(--color-duna);
+    max-width: 62ch;
+    font-size: 15.5px;
+  }
+  .rule {
+    border-color: var(--rule);
+  }
+
+  /* ---------- gramática do traço ---------- */
+  .st-fato {
+    border: 1.6px solid var(--color-bone);
+  }
+  .st-hipotese {
+    border: 1.6px dashed var(--color-bone);
+  }
+  .st-gargalo {
+    border: 1.6px solid var(--color-bone);
+    position: relative;
+    overflow: hidden;
+  }
+  .st-gargalo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--hatch);
+    pointer-events: none;
+  }
+  .st-gargalo > * {
+    position: relative;
+  }
+  .st-sem_info {
+    border: 1px dotted var(--color-sombra);
+    background: transparent !important;
+  }
+
+  .swatch {
+    display: inline-block;
+    width: 22px;
+    height: 12px;
+    border-radius: 2px;
+    flex: none;
+  }
+  .swatch-fato {
+    border: 1.5px solid var(--color-bone);
+  }
+  .swatch-hipotese {
+    border: 1.5px dashed var(--color-bone);
+  }
+  .swatch-gargalo {
+    border: 1.5px solid var(--color-bone);
+    background: var(--hatch-strong);
+  }
+  .swatch-sem_info {
+    border: 1px dotted var(--color-sombra);
+  }
+
+  /* ---------- botões ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 9px 16px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-bone);
+    text-decoration: none;
+    min-height: 40px;
+  }
+  .btn:hover {
+    background: var(--hover);
+  }
+  .btn-solid {
+    background: var(--color-bone);
+    color: var(--color-carvao);
+    border-color: var(--color-bone);
+  }
+  .btn-solid:hover {
+    background: var(--color-piedra);
+  }
+  .btn[disabled],
+  .btn[aria-disabled="true"] {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .field {
+    width: 100%;
+    background: var(--color-deep);
+    border: 1px solid var(--rule-strong);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .field:focus {
+    outline: 2px solid var(--color-bone);
+    outline-offset: 1px;
+  }
+
+  .hatch-bg {
+    background: var(--hatch);
+  }
+
+  .ground-mark {
+    display: block;
+    aspect-ratio: 411 / 100;
+    background: var(--color-bone);
+    -webkit-mask: url(/ground-mark.png) center / contain no-repeat;
+    mask: url(/ground-mark.png) center / contain no-repeat;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

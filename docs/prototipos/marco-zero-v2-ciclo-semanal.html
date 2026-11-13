@@ -1,0 +1,598 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ground Marco Zero · v2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a product shell in the Ground channel look. Left rail = the six screens as a route of survey marks; right = the screen at work. Carvão field, Bone stroke, the stroke grammar carries every data state. */
+:root{
+  --vazio:#0A0A0A; --carvao:#2A2724; --sombra:#6B675D; --duna:#B8B1A2; --piedra:#E0DAC9; --bone:#F2EFE7;
+  --field:var(--carvao); --deep:#211F1C; --panel:#33302C; --ink:var(--bone); --label:var(--duna);
+  --rule:rgba(242,239,231,.12); --rule-strong:rgba(242,239,231,.3); --hover:rgba(242,239,231,.07);
+  --wa:#E7E1D3; --wa-ink:#2A2724;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Montserrat","Segoe UI",Arial,sans-serif;
+  --serif:"Fraunces",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--field);color:var(--ink)}
+body{margin:0;font-family:var(--body);font-size:15px;line-height:1.55}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--bone);outline-offset:2px}
+.lbl{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--label)}
+.num{font-variant-numeric:tabular-nums}
+
+.app{display:grid;grid-template-columns:272px minmax(0,1fr);min-height:100vh}
+.rail{background:var(--vazio);border-right:1px solid var(--rule);padding:28px 18px 24px;display:flex;flex-direction:column;gap:26px;position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow-y:auto}
+.brand{display:flex;flex-direction:column;gap:12px;padding:0 6px}
+.gmark{display:block;width:96px;aspect-ratio:411/100;background:var(--bone);-webkit-mask:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZsAAABkCAYAAABQK52AAAARPklEQVR42u2de4xd1XXGf2bGj7FnanuMX5jY2Hk4dQoyDSWFhjoqDQGlaUQLoirCLUpkRNUINwgaRBQplChRELQpCNcIGhQpiAgUVAqBgnBJQ6C4QSRBiXDj4vJwMB4zeOzxjOfl6R97bZ3T67kzZ+9zz717Zr6fdHQf8/D4O3ef76y1114bhBBCCCGEEEIIIYQQQgghhBBCCCGEEEKIssyRBEmdi0VAJ9ABLAQWAF3AUmAJsNi+vgCYD8yzn+myr/2G/dw8+x1z7Xk70AaMAyeAMeCoPQ4Dx4F+oBd4154P2vtH7f1e4D1gwN4/DBzL/R4hhJDZtIBOoBtYBayw56fa6yXASjOELjOM+fbaP1+U8P/thJnMoBnTMTOhI2ZCR4AD9l6fHUfs8ah9/5AZ3aAdw/rICCGzESezwozjQ8Am4MPAeuA0M5AFZh5iYsZyxwl77xR7Pm5R1FDOjHykNQSMAD1mZr323B+9ZmZ99nWZmBAym+SZD2wEftOMZAPwW/Z8leRJnn4zoPfMfHqAt4FDFnkdtcf99tgvyYSQ2VTJOuD9Ziab7PlHcPMg3XbHLWYuI2Y0/WRpv7fMpA6aOfn5rAP2/gGLsoQQMpuT8GZyGrAFlwr7ELBWHwURaE6jZk7v4eapDpkZ+fTfIXs8ljOyo/Z4nKzQYsDeU5GFkNlMI+YBqy0a+R1cuusDwBpc2ms1bi5FiFZzzAzLz0MN5w4faQ3mDCpfhDGISwcO2mv/vQNkxRf9ZPNfVVw3Tsk9tuWOOTWZAD8fN557jv2/hMwmKdpx6ayVZhrLcRPv6+z52tz7vvRXaS+h6MtFSxMVWYzVmFDeBPz7bTb25tkxN/d6Lm4+s9ZoQjiS+9uO5SI8H/n1kJXd++jxHdz8mi/PV/GHzCaINbj01vvMODZYFLKUbP1IB66UeJFOmRCzmuM5oxnCza8dMjPqAd4wQ3rHvnaArHJRzBKzWQaciUtvbQLOtfdW6jQIIZpgUofNmPqB1y26Ogi8aQZ1kGzOzUeA3tRmWhTVQbbOzy8k98s15pFlkPzX2i2S9QvEB8kySL+2KLQPeLSZZrMEVy68GTdfsplsUl4IIaYT+UpFPzc2StZ5w8+pHcl9z7C9fzx3EfYLm/06sQEmXmvmGefkeTD/2k8tzMVNG3Taa99FpAOXJZpvr7vssdOO+bjMUbv9jkbyeeC+ib7Q3oBf/kHg94HzLXJ5P26CXgghpjtz7cK8tAG/y7eK8mbiqxpHyObK8guc83Nhc+z5XHs8YY+tnp8+YX/DmP09H6tnNjGRzSozls8Af4DKhoUQQjjDeRNXBRxlNqcDvwdcAPwuri2LJuqFEGJ2M0KWhhvGzfXU9ZXJ0mi3AB83g5mpPb5OoDJpIYSIYW5N4PID4LF63zxZZLMPOEN6CiGEqMHP0fw7cD+uCu3wZD8wWWTzw1lkNl44IYQQEzMI/NSOJ4FdBDSvncxsfgr8hT0fYeISuZmShpLRCCHE/7+2v20+8BzwAvCzqaKXWLN5PXfHX68WuyqjGTSD85tr+X1Lfm0C9JH1izpsr4/jygf9oqMBsvYafjdLX3M+D1dFd5o9dtvvW4F6pwkhZh/HcN0XnsWlxn6Cm0ppGJOZzc+AH9uFeJxsV0a/AMkvRvIN9sZzEcJwzh1Hc8YxbK/HcobRR9azqc/MpMeeN3vV7kPAZfrcCSFmOG8CPwf+y4zlx2WiliJoP5uM24C/ISyldg9uAdM6i4gW49YhLcRtAe23he629xbhVvAKIUQjqTfVgUUorwD/Yc9/ZDf0TaVd54hu4Pu4/W1C6QN22zEVbbhWPstxq5G9CZ1O1rX6VNw2CCtlSkKIAGrXu/j59IuAp1P4A2e72WwF/on4dUQhPzeGa43+boHvXYVrUrrUzOd9Zkh+O4Vue+xgehQ3aD2TEM3BL6w8BZciezqVP2w2m83NwK1kvYhiLoi/rOhvO2DHVJFSl0VBy8yAus2gfGO+drJOrgvJOrr6/kq+39K8mqPNvtd/X74BYEzjPhmNEM1nR0p/zGydszkPeD7yZ32F3ghurubtGazTfNw8k+8s6zvHduD6Hy2xKOxUsu0ifOSlCEmI+oxMceN2Aje/8hyuMviLFEutH7MxuxvXFDMZZmtk8+0SFzKftrpjhhsNuHboQ7iy81CT8sZzNq7E/CzgYsq1NJfRiJlCfo7lmI2xV4F/wy2W3GtjD2AnxedwF+H25rkotf/wbIxsHgb+tOTv+AHwaY2XIDpxFTFnBESQ/2mm1W5RlX8UYrowhlvicQiXGvcbtP3Snu+xcTFY5+ef5eTipck6nozh5qIfSE2I2RbZfKEBRvOvwB9rDAVzP2Htj2606NF/Tv3GT6fi5pW67bETl85bipunWmjvr7RHv7V4fmOpdkVJokH4heXvAG9ZVPGeRSa99t4bhJcaLwOewm0+WctkRUH/nKLRzLbI5jLgeyUvMruACzW+gvkEblVyLfVSlw8AV1b0t3iDWm0GtQZXfn4aWRVgfufDbrSlxmzGdy7xRTt7zTxeNgPZX8G/2Q08U8doJuN/cLsjJ8lsMZsNuBWyq0oazadwHRBEcbbg5sjWF/z+vcBv47bTTYHFucjJV/x14crQF+SMaQlZNaBfwOvbJeWr+kSahrIPl9r675yp9AKvEdBssgEssxuzMwt+/3GyFltXWwZBZtMiOuyDtLLE7/h74Mu4fmuiONcA/0hW+z8VI7hKwZdmwP99jn32Os14OshK0BeQdZVYbAa1hKyqz1f8LSIra1faL55+XJrroF0L/hfXYPJde70vob/15YiIBruZ/njKJ2E2zNk8GWk0PsXzhxbSijCuBe4O0Bkz9JdmyP9/3G5Oyt6gdOC6SyzHpfvOsAj9LFzqbwOTF014fRtVNp7ydhw9Fpm8hevtuA83Ab83oUh5MnZGGs0IcPl0uPuayXwTuKHEADkf11pbhNFtqYgiZc7+3LyJS02JcHxPvg/i0i9n4Oak1psh+XNSBr/4uVkRlm/i6zu/H7FI5JAZx377zHgzOTBNDKUe5+F6loVcp0YsWvuMRURJM5MjmyvNaIg0mr+V0ZQy+bkF76bbcj8j4uizYw8nb8vbgds64yrg70r8G6fU3BycyEVwY2Rd3YfJurqP4NaKDNvz0dzX9+VMZABX1dVvhjFo5uHXoBylufMmreBe09X3NivCK8CluIIF0SI22Qd2PPL4viSM5swptB2oeT2Ky5+LanmxxHjwW4nswHXN2IBL6Z1uEdQK3JzTQruBVTf5MB6IOB8/xC2eFi3mhRID61XiG3MKN+cSonc/bv5BVMdTJcbDsD0+LBmTMJpxXLpNJMCWEgPrMLBREkazvY6uo3Xe/wXFSzxFHPeUGA/+eEoyJmM0/yLZ0uHBEndwF0m+aNbi8vRF9X4cbXFRNTtKRDK6uFXLIxNoPdXxBm6Nl0iATbjJxBizuU7yleK7AVq/Lrkq55YGRDTfkoxNzQBMdXxW0qXBWbj6+piTeK/kK8WdTJ4uq51ovlySVcpNDTCav5aMlbAs8IY4X5whEuCcEhHNLsnX1FTN05KsUm5ogNF8VTJWxm0R5+MXki0dXoocVAO4ldkijolSZ8NT6H2uZKuMzzfAaHTzVR3rObn0f6pjP+V6OooG8uc14WbI8RXJF83OCL2/LtkqYzXZgslYo+nFrZ0R1RBafdaHW9ckEqEncmD1k3A77sQpWl6en8NRUUC1PEqx3L+qMVvDxwKvT/tw8zsiEb5a4i5OcwfxPB1hNmdLtsq4mPLps4slYzI3xaNooXNSLMM15pvspA1NcnenwRXHOShdmRLzgV/V+bwXXWC7TTJWyl2EpfpvlWRpcWeJu7jtki+a7wRqfYMkq5QnI8eAN52vScJK2RZ4Xnpw+xmJRNhsd3FDhDew2yr5ollvF6mid2i6Y66WB+1cxBYF3CIJK+UDhC/J+IJkS4cVuHLAmMF1teQrxfMBWuuOuVq+SLnGmndKwsp5OfDc/ESSpcNy3D7hMYNMe9OU4/YArV+TXJVyCRPPvRTttfUdSVg52wibpxnFbaAmEmE38fM0n5R80Xw2UOsvSbLKWDxBaiYkjXaA8rt2iqnZE3hevi3J0uH6EkbzpOSLpo2wnnOH0X5AKaVmaqOe7ZKwci4PPDfv6gYgLfqIX7y5UPJFE7ofiqKa6oidp9GmW2nfEHxUkqVDSLltbeiqidB4rswZtjbZaj2xhTG+pFatT6rnqsDzourYhLiQYu3r66V0FNXEMY+wss0+1F6jSm4sGdWoFU1zeBU1PZ22PFtigF0i+Upf3KaqcPI3AVdKssq4gPBuwdqbpvncjoqWpi3XEbdgbRCtqSnL6wHR5H2SqzLmAwdLGM3NkrApnI2WYkxbOnEtz2MG2LWSrxTXUnx+7FXJVSlPlDCaRyRf03gepTWnLQ9FDrBHJV1pQvLOWohWHduIN5q9uLJ1UT3XELbe6QlJlg6fI34twWbJV4orAvS+X3JVRjcuHRxrNldJwqZlYEL31Nok2dJgLcVKbSe6i/iG5CvNnoIDZgj4iOSqjF0Ubz+jPetbxwuB5+YeSZYOj0UOsDeUNmhq2uYxyVUZ2wNSMrWGNAicKwmbloEJiT4Hce2GRAJ8mbg9OUZxLSJEOV4M0F47b1bDJuLWlPnjJknYFDpxWzcrtTkNuaLEAPuu5CvN5gC9H5dclfFyiXHwrORrGrei/ozTkrW41f4xA6wPWCUJS1O0+q8ftzW0aDzfJLyLc76Z43JJ2BS6yJZlFIlCe4HVki2tQaYtnlvDpQEXObXYqIatJYxmHPgjSdg07gg8N38lyaZ/6kBdbBsTVU51gfNfHwb+TJI1nC2EbX5We+yUhE1jY2AWRrtvJsQ6incVrg1NOyVfaX4eoLm6BTSezYTvU1+7eFPNZpvHjwLPj1LOCRG7SlrNBcsTWv23XZI1lAuov09T0XTan0jGpnFX4Hi5V5KlxTMRRqPGj+VpI6zBYy/agbORXBp5k5U3obslY9NvioumnPuAFZItHRZHDLZXJFtDuDlQ9yskWcPYzMnzM6HzNUppNo8LCxpNfoHnbZItLe6OMJuvS7bSLLNIZarVz76sU7udNpYXKVd51o9aBTWLjbiy8tDF5t2SLh22EL5Segw4U9KV5qkAzZ8H5kiyhnEt5XbcHMe1SRHNYVfE+blesqVDFy4dFnoSd0u60twXqPmHJVnDWM7UlZdDqJFjKrQRXimrPYQS4xGKr77NRzXXSbpSXB84cP5BkjWURylXFKA2Qc3l/MDztAelz5LiusgBdxi1pSnDOsImoXtR+5NGsorw9TT5OR0tDmw+Xwk4V0eB0yVZWvwqcrA9KOlKsTPwQrdDkjWUjxI/R/MWsEYSNp2QrZ63Sq60uKzEgPtLyVeKhwlr6rhekjWULYRtBuhTzM8B7ZKv6ZxXMBIdQ22zkuSJSKNRe+7yPE6xctsh3LoC0VjWEF7uvBttCNgqHgo4T1+SXGlxFlNX2kx04evVnV1D+HQBvQdQ+5Mq2U2W3y/y+T9PkrXsWjVI8TZCOk+JETLZli8B1Y6Qjb3YjdaYS17zayRRpXwi4PN/l+RqGfcQth29SIz7CW/LofC0sSwHXmDiNhvbJE9TqNf8NH8n/YxkaikHUEPgaU1ox9QeSVYZFwG3A1/DrWjfKEmaylZgfx3DuUPytJSuCSL+ydbViAS5CS0oFCLPJ3ENUb+BGp2mwjJcaqzINepGyZUmGyleIDCIigKEEK2hSCVaP9q8MWlup1h1x9WSSgjRIs5GzVBnBDuo3xdtDPiWJBJCtJhLqL+54C2SZ/rwOdze6X69QR/wku4WhBAJsRaXjdkNvIZrpHqOZBFCCCGEEEIIIYQQQgghhBBCCCGEEEIIIVrF/wELMeJnU6RJFAAAAABJRU5ErkJggg==) center/contain no-repeat;mask:url(data:image/png;base64,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) center/contain no-repeat}
+.pname{font-family:var(--display);font-weight:800;font-size:21px;line-height:1;text-transform:uppercase;letter-spacing:.01em}
+.pname small{display:block;font-family:var(--mono);font-weight:400;font-size:10.5px;letter-spacing:.22em;color:var(--label);margin-bottom:6px}
+.store{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--rule);border-radius:10px}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--panel);display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:14px;flex:none;border:1px solid var(--rule-strong)}
+.store b{display:block;font-size:13.5px;font-weight:600}
+.store span{font-size:12px;color:var(--label)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.steps button{width:100%;display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;align-items:center;background:none;border:0;border-radius:8px;padding:9px 8px;text-align:left;cursor:pointer;color:var(--label)}
+.steps button:hover{background:var(--hover)}
+.steps button[aria-current="page"]{background:rgba(242,239,231,.1);color:var(--ink)}
+.steps .k{font-family:var(--mono);font-size:11px}
+.steps .t{font-size:14px;line-height:1.3}
+.steps .done .k::after{content:" ✓"}
+.rail-foot{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding:0 6px}
+.demo{display:inline-flex;align-self:flex-start;border:1px dashed var(--rule-strong);border-radius:999px;padding:4px 10px}
+
+main{min-width:0;display:flex;flex-direction:column}
+.topbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding-block:18px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));border-bottom:1px solid var(--rule)}
+.crumbs{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.crumbs .t{font-family:var(--display);font-weight:600;font-size:15px}
+.btn{background:transparent;border:1px solid var(--rule-strong);border-radius:999px;padding:9px 16px;cursor:pointer;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+.btn:hover{background:var(--hover)}
+.btn.solid{background:var(--bone);color:var(--carvao);border-color:var(--bone)}
+.btn.solid:hover{background:var(--piedra)}
+.btn[disabled]{opacity:.35;cursor:default}
+.screen{padding-block:36px 48px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));max-width:1120px;width:100%;flex:1}
+.screen h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.4vw,42px);line-height:1.04;margin:8px 0 10px;text-wrap:balance;letter-spacing:-.005em}
+.screen .sub{margin:0 0 28px;color:var(--label);max-width:62ch;font-size:15.5px}
+.say{font-family:var(--serif);font-weight:400;font-size:clamp(20px,2.2vw,26px);line-height:1.3;margin:0;text-wrap:balance}
+.say.big{font-size:clamp(26px,3vw,38px)}
+.foot{margin-top:40px;padding-top:20px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center}
+.next-row{display:flex;justify-content:flex-end;gap:10px;margin-top:32px}
+
+/* screen 1 */
+.connect{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:8px}
+.conn{display:flex;flex-direction:column;gap:14px;align-items:flex-start;text-align:left;padding:22px;border:1px solid var(--rule-strong);border-radius:14px;background:var(--deep);cursor:pointer;color:var(--ink);min-height:180px}
+.conn:hover{border-color:var(--bone);background:var(--panel)}
+.conn svg{width:40px;height:40px}
+.conn b{font-family:var(--display);font-weight:600;font-size:18px}
+.conn span{font-size:13.5px;color:var(--label)}
+.need{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-size:13.5px;color:var(--label)}
+.need i{font-style:normal;color:var(--ink);font-family:var(--mono);font-size:12px;border:1px solid var(--rule);border-radius:6px;padding:2px 8px;margin-right:6px}
+
+/* screen 2 */
+.progress{border:1px solid var(--rule);border-radius:12px;padding:20px;background:var(--deep);display:flex;flex-direction:column;gap:12px}
+.bar{height:10px;border-radius:999px;background:rgba(242,239,231,.08);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(-48deg,var(--bone) 0 2px,rgba(242,239,231,.55) 2px 6px);transition:width .25s linear}
+.prow{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:420px}
+th{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--label);text-align:left;padding:11px 14px;background:rgba(242,239,231,.04)}
+td{padding:11px 14px;border-top:1px solid var(--rule)}
+td.arrow{color:var(--label);font-family:var(--mono)}
+.tag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--rule-strong);border-radius:4px;padding:2px 7px;color:var(--ink)}
+.tag.off{border-style:dotted;color:var(--sombra)}
+.doubt{border:1.5px dashed var(--bone);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px;background:var(--deep)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pair div{border:1px solid var(--rule);border-radius:10px;padding:12px;font-size:13.5px}
+.pair b{display:block;font-size:15px;margin-bottom:4px}
+.pair .same{color:var(--bone);font-family:var(--mono);font-size:12px}
+.pair .dim{color:var(--label)}
+.resolved{border-style:solid}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+
+/* screen 3 */
+.hero3{border-left:2px solid var(--bone);padding-left:20px;margin-bottom:28px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{border-top:2px solid var(--bone);padding:14px 4px 4px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.kpi .v{font-family:var(--display);font-weight:800;font-size:clamp(28px,3vw,38px);line-height:1}
+.kpi .d{font-size:13px;color:var(--label)}
+.chart{margin-top:30px;border:1px solid var(--rule);border-radius:14px;padding:22px;background:var(--deep)}
+.chart svg{width:100%;height:auto;display:block}
+.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}
+.legend{display:flex;gap:10px;align-items:flex-start}
+.legend i{flex:none;width:26px;height:14px;border-radius:3px;margin-top:4px}
+.legend .rent{border:1.5px dashed var(--bone);background:repeating-linear-gradient(-48deg,rgba(242,239,231,.55) 0 1.4px,transparent 1.4px 5px)}
+.legend .own{background:var(--bone)}
+.legend b{font-family:var(--display);font-weight:800;font-size:22px;display:block;line-height:1.1}
+
+/* screen 4 */
+.shock{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:start}
+.dots{width:100%;height:auto;display:block;border:1px solid var(--rule);border-radius:12px;background:var(--deep)}
+.sim{border:1px solid var(--rule-strong);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:16px;background:var(--deep)}
+.money{font-family:var(--display);font-weight:800;font-size:clamp(40px,5vw,64px);line-height:1;letter-spacing:-.01em}
+input[type=range]{width:100%;accent-color:#F2EFE7;height:28px}
+.scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--label)}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.facts div{border-top:1px solid var(--rule);padding-top:8px}
+.facts b{display:block;font-family:var(--display);font-size:20px}
+
+/* screen 5 */
+.groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grp{border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px;background:var(--deep);min-width:0;position:relative;overflow:hidden}
+.grp.fato{border:1.6px solid var(--bone)}
+.grp.hip{border:1.6px dashed var(--bone)}
+.grp.garg{border:1.6px solid var(--bone)}
+.grp.garg::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-48deg,rgba(242,239,231,.09) 0 1.5px,transparent 1.5px 9px);pointer-events:none}
+.grp.vaz{border:1px dotted var(--sombra);background:transparent}
+.grp header{display:flex;justify-content:space-between;gap:10px;align-items:baseline;position:relative}
+.grp h3{margin:0;font-family:var(--display);font-weight:600;font-size:19px}
+.grp .n{font-family:var(--display);font-weight:800;font-size:40px;line-height:1;position:relative}
+.grp .n small{font-family:var(--body);font-weight:500;font-size:14px;color:var(--label);margin-left:6px}
+.grp p{margin:0;font-size:14px;color:var(--label);position:relative}
+.grp .val{font-family:var(--mono);font-size:13px;color:var(--ink);position:relative}
+.gram{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px;font-size:12.5px;color:var(--label)}
+.gram span{display:flex;gap:8px;align-items:center}
+.gram i{width:22px;height:12px;border-radius:2px}
+.gram .a{border:1.5px solid var(--bone)}.gram .b{border:1.5px dashed var(--bone)}
+.gram .c{border:1.5px solid var(--bone);background:repeating-linear-gradient(-48deg,var(--bone) 0 1.2px,transparent 1.2px 4px)}.gram .d{border:1px dotted var(--sombra)}
+
+/* screen 6 */
+.mission{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:28px;align-items:start}
+.mcard{border:1.6px solid var(--bone);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px;background:var(--deep)}
+.mcard ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--label)}
+.phone{border:1px solid var(--rule-strong);border-radius:22px;padding:14px;background:#1B1917;display:flex;flex-direction:column;gap:12px}
+.phone .ph{display:flex;align-items:center;gap:10px;padding:4px 6px 10px;border-bottom:1px solid var(--rule)}
+.phone .ph b{font-size:14px}
+.bubble{align-self:flex-end;max-width:92%;background:var(--wa);color:var(--wa-ink);border-radius:14px 14px 4px 14px;padding:4px}
+.bubble textarea{display:block;width:100%;min-height:190px;border:0;background:transparent;color:var(--wa-ink);resize:vertical;padding:10px 12px;font-size:14.5px;line-height:1.5}
+.bubble textarea:focus{outline:2px solid var(--carvao);border-radius:10px}
+.phone .meta{font-family:var(--mono);font-size:10.5px;color:var(--label);text-align:right;letter-spacing:.1em}
+.est{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.est div{border-top:1px solid var(--rule);padding-top:8px}
+.est b{display:block;font-family:var(--display);font-size:22px}
+.closing{margin-top:36px;padding:26px 0 0;border-top:1px solid var(--rule)}
+.invite{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:22px;font-size:13.5px;color:var(--label)}
+.invite a{color:var(--ink);text-underline-offset:3px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--bone);color:var(--carvao);padding:10px 16px;border-radius:999px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;z-index:60}
+
+/* ciclo da semana: missão → check-in → resultado → ajuste */
+.steps .sep{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sombra);padding:14px 8px 4px;border-top:1px solid var(--rule);margin-top:8px}
+.loop{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 26px}
+.loop .node{border:1.4px dashed var(--rule-strong);border-radius:999px;padding:6px 14px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--label)}
+.loop .node.done{border-style:solid;border-color:var(--duna);color:var(--duna)}
+.loop .node.on{border:1.6px solid var(--bone);background:var(--bone);color:var(--carvao)}
+.loop .arr{font-family:var(--mono);color:var(--sombra)}
+.ci{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);gap:24px;align-items:start}
+.chat{border:1px solid var(--rule-strong);border-radius:18px;padding:16px;background:#1B1917;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:88%;padding:12px 14px;border-radius:14px;font-size:14.5px;line-height:1.5}
+.msg.tool{align-self:flex-start;background:var(--panel);border-radius:14px 14px 14px 4px}
+.msg.me{align-self:flex-end;background:var(--wa);color:var(--wa-ink);border-radius:14px 14px 4px 14px}
+.msg .who{display:block;margin-bottom:6px}
+.answers{display:flex;flex-wrap:wrap;gap:8px;align-self:flex-end;justify-content:flex-end}
+.shots{display:flex;gap:10px;flex-wrap:wrap}
+.shot{width:120px;height:150px;border-radius:10px;border:1px dashed var(--carvao);display:flex;flex-direction:column;justify-content:flex-end;padding:10px;font-size:11px;color:var(--wa-ink);background:repeating-linear-gradient(-48deg,rgba(42,39,36,.08) 0 1.5px,transparent 1.5px 8px)}
+.composer{display:flex;gap:8px;align-items:center;border:1px solid var(--rule);border-radius:999px;padding:6px 6px 6px 16px;color:var(--sombra);font-size:13.5px}
+.composer span{flex:1}
+.composer i{width:30px;height:30px;border-radius:50%;border:1px solid var(--rule-strong);display:grid;place-items:center;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--label)}
+.side{display:flex;flex-direction:column;gap:14px}
+.card{border-radius:14px;padding:18px;background:var(--deep);display:flex;flex-direction:column;gap:10px;min-width:0;position:relative;overflow:hidden}
+.card.fato{border:1.6px solid var(--bone)}
+.card.hip{border:1.6px dashed var(--bone)}
+.card.vaz{border:1px dotted var(--sombra);background:transparent}
+.card.garg{border:1.6px solid var(--bone)}
+.card.garg::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-48deg,rgba(242,239,231,.09) 0 1.5px,transparent 1.5px 9px);pointer-events:none}
+.card>*{position:relative}
+.card h3{margin:0;font-family:var(--display);font-weight:600;font-size:18px}
+.card p,.card li{margin:0;font-size:14px;color:var(--label)}
+.card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.card .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.vs{margin-top:26px;border:1px solid var(--rule);border-radius:14px;padding:22px;background:var(--deep);display:flex;flex-direction:column;gap:16px}
+.vsrow{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr) 64px;gap:14px;align-items:center;font-size:14px}
+.vsrow .track{height:22px;border-radius:4px;background:rgba(242,239,231,.06);overflow:hidden}
+.vsrow .track i{display:block;height:100%}
+.vsrow .track i.own{background:var(--bone)}
+.vsrow .track i.base{border:1.4px dashed var(--duna);background:repeating-linear-gradient(-48deg,rgba(242,239,231,.35) 0 1.2px,transparent 1.2px 5px);height:100%}
+.vsrow b{font-family:var(--display);font-size:20px;text-align:right}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.learn{display:flex;flex-direction:column;gap:0;border:1px solid var(--rule);border-radius:14px;overflow:hidden;margin-top:12px}
+.learn div{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 16px;border-top:1px solid var(--rule);font-size:14px}
+.learn div:first-child{border-top:0}
+.learn i{width:26px;height:14px;border-radius:3px}
+.learn i.a{border:1.5px solid var(--bone)}
+.learn i.b{border:1.5px dashed var(--bone)}
+.learn i.c{border:1.5px solid var(--bone);background:repeating-linear-gradient(-48deg,var(--bone) 0 1.2px,transparent 1.2px 4px)}
+.learn i.d{border:1px dotted var(--sombra)}
+.learn small{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--label);white-space:nowrap}
+.mini{background:var(--wa);color:var(--wa-ink);border-radius:12px 12px 4px 12px;padding:12px 14px;font-size:13.5px;line-height:1.5;align-self:flex-start}
+.note{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--label);border-left:2px solid var(--bone);padding-left:10px}
+.progress-own{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.progress-own b{font-family:var(--display);font-weight:800;font-size:34px;line-height:1}
+
+@media (max-width:980px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .shock,.mission,.cols,.ci{grid-template-columns:minmax(0,1fr)}
+  .three{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:820px){.two{grid-template-columns:minmax(0,1fr)}.vsrow{grid-template-columns:minmax(0,1fr) 56px}.vsrow .track{grid-column:1/-1;grid-row:2}.steps .sep{display:none}}
+@media (max-width:820px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;height:auto;padding:16px max(16px,env(safe-area-inset-left,0px));gap:14px;border-right:0;border-bottom:1px solid var(--rule)}
+  .brand{flex-direction:row;align-items:center;justify-content:space-between}
+  .store,.rail-foot{display:none}
+  .steps{flex-direction:row;overflow-x:auto;gap:4px}
+  .steps button{grid-template-columns:auto auto;white-space:nowrap}
+  .connect,.groups{grid-template-columns:minmax(0,1fr)}
+  .topbar,.screen{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .pair,.facts,.est,.split{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="brand">
+      <span class="gmark" role="img" aria-label="Símbolo Ground Project"></span>
+      <div class="pname"><small>Ground</small>Marco Zero</div>
+    </div>
+    <div class="store"><div class="avatar">C</div><div><b>Carla · Fôlego Nutrição</b><span>Suplementos · Nuvemshop</span></div></div>
+    <nav aria-label="Telas"><ol class="steps" id="steps"></ol></nav>
+    <div class="rail-foot">
+      <span class="lbl demo">Demonstração · dados fictícios</span>
+      <span class="lbl" style="letter-spacing:.14em">Paid attention → owned ground</span>
+    </div>
+  </aside>
+  <main>
+    <div class="topbar">
+      <div class="crumbs"><span class="lbl" id="crumbN">01 / 06</span><span class="t" id="crumbT">Conexão</span></div>
+      <div style="display:flex;gap:8px"><button class="btn" id="prev" type="button">← Anterior</button><button class="btn solid" id="next" type="button">Próximo →</button></div>
+    </div>
+    <div id="view" class="screen"></div>
+  </main>
+</div>
+<div id="toastHost"></div>
+
+<script>
+const S=[
+ {id:'conexao',n:'Conexão'},
+ {id:'organizacao',n:'Organização dos dados'},
+ {id:'marco-zero',n:'Seu marco zero'},
+ {id:'dinheiro-parado',n:'Dinheiro parado'},
+ {id:'grupos',n:'Grupos de clientes'},
+ {id:'missao',n:'Missão da semana'},
+ {id:'check-in',n:'Check-in da missão'},
+ {id:'resultado',n:'Resultado'},
+ {id:'ajuste',n:'Ajuste da próxima semana'}
+];
+const N=S.length;
+// ciclo de retorno: o que a Carla contou no check-in
+let check=null, reason=null, ciStep=0;
+const REASONS={tempo:'Faltou tempo',contato:'Não tinha o contato de todas',receio:'Fiquei com receio de incomodar'};
+function R(){ // resultado calculado a partir do check-in
+ const sent=check==='all'?180:check==='part'?120:0;
+ const orders=Math.round(sent*.175), base=Math.round(sent*.05);
+ const sRisk=Math.round(sent*.58), sUni=sent-sRisk, oRisk=Math.round(sRisk*.24), oUni=orders-oRisk;
+ return {sent,orders,base,extra:orders-base,rev:orders*TICKET,sRisk,sUni,oRisk,oUni,
+  replies:check==='all'?41:28, ctrl:check==='part'?{n:60,o:3}:null};
+}
+function loop(on){const L=['Missão','Check-in','Resultado','Ajuste'];return `<div class="loop" aria-label="Ciclo da semana">${L.map((l,i)=>`<span class="node ${i<on?'done':i===on?'on':''}">${l}</span>${i<3?'<span class="arr">→</span>':''}`).join('')}<span class="arr">↺</span></div>`}
+const PHRASE1='A venda que você procura já está na sua base.';
+const PHRASE2='Em vez de investir mais em anúncio, recupere quem já te conhece. É mais barato e mais rápido.';
+const TICKET=150, SUMIDOS=1400;
+let cur=0, seen=new Set([0]), progT=null, merged=null, pct=10;
+let msg='Oi, [nome]! Aqui é a Carla, da Fôlego. Vi que faz uns 45 dias que você levou o seu whey, então ele deve estar perto do fim.\n\nSeparei o seu sabor de sempre para você não ficar sem. Quer que eu reserve? É só responder aqui que eu te mando o link.';
+const brl=v=>'R$ '+Math.round(v).toLocaleString('pt-BR');
+const $=s=>document.querySelector(s);
+
+function steps(){$('#steps').innerHTML=S.map((s,i)=>`${i===6?'<li class="sep">Uma semana depois</li>':''}<li><button type="button" data-go="${i}" class="${seen.has(i)&&i!==cur?'done':''}" ${i===cur?'aria-current="page"':''}><span class="k">0${i+1}</span><span class="t">${s.n}</span></button></li>`).join('')}
+
+function go(i,fromHash){
+  cur=Math.max(0,Math.min(S.length-1,i)); seen.add(cur);
+  if(!fromHash&&location.hash!=='#'+S[cur].id){try{history.replaceState(null,'','#'+S[cur].id)}catch(e){location.hash=S[cur].id}}
+  $('#crumbN').textContent=`0${cur+1} / 0${N}`; $('#crumbT').textContent=S[cur].n;
+  $('#prev').disabled=cur===0; $('#next').textContent=cur===S.length-1?'Recomeçar →':'Próximo →';
+  steps(); clearInterval(progT);
+  $('#view').innerHTML=[s1,s2,s3,s4,s5,s6,s7,s8,s9][cur]();
+  ({1:after2,3:after4,5:after6})[cur]?.();
+  window.scrollTo({top:0});
+}
+
+/* ---------- 1 ---------- */
+function s1(){return `
+ <span class="lbl">Bem-vinda, Carla</span>
+ <h1>Vamos ler a sua base de clientes.</h1>
+ <p class="sub">Conecte a sua loja ou suba uma planilha, mesmo bagunçada. Em poucos minutos você vê quanto da sua receita é alugada e quanto dinheiro está parado na sua base.</p>
+ <div class="connect">
+  <button class="conn" type="button" data-go="1">${icoStore()}<b>Conectar Nuvemshop</b><span>Pedidos e clientes importados direto da loja.</span></button>
+  <button class="conn" type="button" data-go="1">${icoBag()}<b>Conectar Shopify</b><span>Mesma leitura, pela integração da Shopify.</span></button>
+  <button class="conn" type="button" data-go="1">${icoSheet()}<b>Subir planilha</b><span>CSV ou Excel, do jeito que estiver. A gente organiza.</span></button>
+ </div>
+ <div class="need"><span class="lbl" style="width:100%">Só precisamos de três coisas</span><span><i>quem</i>comprou</span><span><i>quando</i>comprou</span><span><i>quanto</i>gastou</span></div>
+ <div class="foot"><p class="say">${PHRASE1}</p></div>`}
+const icoStore=()=>`<svg viewBox="0 0 40 40" fill="none" stroke="#F2EFE7" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 15 9 7h22l3 8"/><path d="M6 15c0 3 2.5 4.5 4.7 4.5S15.3 18 15.3 15c0 3 2.2 4.5 4.7 4.5s4.7-1.5 4.7-4.5c0 3 2.2 4.5 4.6 4.5S34 18 34 15"/><path d="M9 20v13h22V20"/><path d="M17 33v-7h6v7"/></svg>`;
+const icoBag=()=>`<svg viewBox="0 0 40 40" fill="none" stroke="#F2EFE7" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8 13h24l-2 21H10z"/><path d="M15 16v-5a5 5 0 0 1 10 0v5"/></svg>`;
+const icoSheet=()=>`<svg viewBox="0 0 40 40" fill="none" stroke="#F2EFE7" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M10 5h14l7 7v23H10z"/><path d="M24 5v7h7"/><path d="M14 19h13M14 24h13M14 29h13M19 17v14"/></svg>`;
+
+/* ---------- 2 ---------- */
+function s2(){return `
+ <span class="lbl">Organização dos dados</span>
+ <h1>A gente arruma a casa. Você só confirma o que ficou em dúvida.</h1>
+ <p class="sub">A leitura reconhece as colunas, junta cadastros repetidos e descarta o que não serve para medir recompra.</p>
+ <div class="progress"><div class="prow"><span id="pText">Lendo 0 de 3.412 pedidos…</span><span class="lbl" id="pPct">0%</span></div><div class="bar"><i id="pBar"></i></div><div class="prow"><span class="lbl" id="pDup">Cadastros repetidos encontrados: 0</span><span class="lbl">Fonte: Nuvemshop</span></div></div>
+ <div class="cols">
+  <div><span class="lbl">Colunas reconhecidas</span>
+   <div class="tablewrap" style="margin-top:10px"><table>
+    <thead><tr><th>Na sua planilha</th><th></th><th>Virou</th></tr></thead>
+    <tbody>
+     <tr><td>Nome do comprador</td><td class="arrow">→</td><td><span class="tag">Quem</span></td></tr>
+     <tr><td>Data do pedido</td><td class="arrow">→</td><td><span class="tag">Quando</span></td></tr>
+     <tr><td>Total pago</td><td class="arrow">→</td><td><span class="tag">Quanto</span></td></tr>
+     <tr><td>Telefone / E-mail</td><td class="arrow">→</td><td><span class="tag">Contato</span></td></tr>
+     <tr><td>Produto</td><td class="arrow">→</td><td><span class="tag">Item</span></td></tr>
+     <tr><td>Cupom utilizado</td><td class="arrow">→</td><td><span class="tag">Desconto</span></td></tr>
+     <tr><td>Status do frete</td><td class="arrow">→</td><td><span class="tag off">Ignorado</span></td></tr>
+    </tbody></table></div>
+  </div>
+  <div><span class="lbl">Ficou em dúvida</span><div id="doubt" style="margin-top:10px">${doubt()}</div></div>
+ </div>
+ <div class="next-row"><button class="btn solid" type="button" data-go="2">Ver o meu marco zero →</button></div>`}
+function doubt(){
+ if(merged===null)return `<div class="doubt"><p class="say" style="font-size:20px">Esses dois cadastros são a mesma cliente?</p>
+   <div class="pair"><div><b>Carla S.</b><span class="dim">4 pedidos · último em ago/26</span><br><span class="same">(21) 9 8812-4407</span></div><div><b>Carla Souza</b><span class="dim">1 pedido · set/26</span><br><span class="same">(21) 9 8812-4407</span></div></div>
+   <p class="lbl" style="letter-spacing:.12em">Mesmo telefone, nomes diferentes</p>
+   <div class="chips"><button class="btn solid" type="button" data-merge="1">Sim, juntar</button><button class="btn" type="button" data-merge="0">Não</button></div></div>`;
+ return `<div class="doubt resolved"><p class="say" style="font-size:20px">${merged?'Pronto, virou uma cliente só: 5 pedidos.':'Certo, ficam como duas clientes.'}</p><p style="margin:0;color:var(--label);font-size:14px">Mais 37 cadastros repetidos foram unidos sozinhos, porque tinham o mesmo e-mail e o mesmo telefone.</p><div class="chips"><button class="btn" type="button" data-merge="reset">Desfazer</button></div></div>`}
+function after2(){
+ let n=0;const tot=3412;
+ progT=setInterval(()=>{n=Math.min(tot,n+Math.ceil(tot/28));const p=Math.round(n/tot*100);const t=$('#pText');if(!t){clearInterval(progT);return}
+  t.textContent=n<tot?`Lendo ${n.toLocaleString('pt-BR')} de 3.412 pedidos…`:'3.412 pedidos lidos · 2.000 clientes únicas';
+  $('#pPct').textContent=p+'%';$('#pBar').style.width=p+'%';$('#pDup').textContent='Cadastros repetidos encontrados: '+Math.round(38*n/tot);
+  if(n>=tot)clearInterval(progT)},110);
+}
+
+/* ---------- 3 ---------- */
+const MONTHS=[['jun',41],['jul',44],['ago',52],['set',47],['out',58],['nov',63]]; // receita mensal em R$ mil
+const NEWSH=[.66,.69,.72,.68,.71,.73];
+function s3(){
+ return `
+ <div class="hero3"><span class="lbl">Seu marco zero · últimos 6 meses</span><p class="say big" style="margin-top:8px">${PHRASE1}</p></div>
+ <div class="kpis">
+  <div class="kpi"><span class="lbl">Clientes na base</span><span class="v num">2.000</span><span class="d">3.412 pedidos desde 2024</span></div>
+  <div class="kpi"><span class="lbl">Taxa de recompra</span><span class="v num">18%</span><span class="d">360 clientes compraram mais de uma vez</span></div>
+  <div class="kpi"><span class="lbl">Até a 2ª compra</span><span class="v num">52 dias</span><span class="d">Tempo médio entre o 1º e o 2º pedido</span></div>
+  <div class="kpi"><span class="lbl">LTV médio</span><span class="v num">R$ 209</span><span class="d">Quanto cada cliente gastou, somando tudo</span></div>
+ </div>
+ <div class="chart">
+  <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline"><span class="lbl">Receita por mês · R$ mil</span><span class="lbl" style="letter-spacing:.12em">Hachura tracejada = cliente nova · sólido = cliente que voltou</span></div>
+  ${chart()}
+  <div class="split">
+   <div class="legend"><i class="rent"></i><div><b class="num">70%</b><span>da receita vem de cliente nova. É o crescimento alugado: depende de anúncio para continuar.</span></div></div>
+   <div class="legend"><i class="own"></i><div><b class="num">30%</b><span>vem de quem voltou. É o crescimento construído, o terreno que já é seu.</span></div></div>
+  </div>
+ </div>
+ <div class="next-row"><button class="btn solid" type="button" data-go="3">Ver o dinheiro parado →</button></div>`}
+function chart(){
+ const W=860,H=300,x0=56,y0=24,ch=220,max=70,bw=74,gap=(W-x0-24-6*bw)/5;
+ const Y=v=>y0+ch-(v/max)*ch;
+ let g='';
+ [0,20,40,60].forEach(t=>{g+=`<line x1="${x0}" x2="${W-16}" y1="${Y(t)}" y2="${Y(t)}" stroke="rgba(242,239,231,.1)"/><text x="${x0-10}" y="${Y(t)+4}" text-anchor="end" fill="#B8B1A2" font-family="IBM Plex Mono,monospace" font-size="11">${t}</text>`});
+ MONTHS.forEach(([m,v],i)=>{const x=x0+i*(bw+gap),nv=v*NEWSH[i],ov=v-nv;
+  g+=`<rect x="${x}" y="${Y(ov)}" width="${bw}" height="${ch-(Y(ov)-y0)}" fill="#F2EFE7" rx="2"/>`;
+  g+=`<rect x="${x+.8}" y="${Y(v)+.8}" width="${bw-1.6}" height="${Y(ov)-Y(v)-2.6}" fill="url(#hatch)" stroke="#F2EFE7" stroke-width="1.4" stroke-dasharray="5 4" rx="2"/>`;
+  g+=`<text x="${x+bw/2}" y="${Y(v)-8}" text-anchor="middle" fill="#F2EFE7" font-family="Archivo,Arial" font-weight="600" font-size="13">${v}</text>`;
+  g+=`<text x="${x+bw/2}" y="${y0+ch+20}" text-anchor="middle" fill="#B8B1A2" font-family="IBM Plex Mono,monospace" font-size="11" letter-spacing="1.5">${m.toUpperCase()}</text>`});
+ return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Receita mensal de junho a novembro, cerca de 70% de clientes novas"><defs><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-48)"><line x1="0" y1="0" x2="0" y2="7" stroke="rgba(242,239,231,.55)" stroke-width="1.4"/></pattern></defs>${g}</svg>`}
+
+/* ---------- 4 ---------- */
+function s4(){return `
+ <span class="lbl">Dinheiro parado</span>
+ <h1><span class="num">1.400</span> clientes compraram uma vez e sumiram.</h1>
+ <p class="sub">Cada uma já conhece a Fôlego, já confiou e já pagou. Ticket médio da primeira compra: R$ 150.</p>
+ <div class="shock">
+  <div><canvas id="dots" class="dots" width="760" height="460" aria-label="1.400 quadrados, um por cliente; os destacados são as que voltariam"></canvas><p class="lbl" style="margin-top:10px;letter-spacing:.12em">Cada quadrado é uma cliente · em destaque, as que voltariam</p></div>
+  <div class="sim">
+   <span class="lbl">Se <span id="pv">10</span>% voltarem</span>
+   <div class="money num" id="mv">R$ 21.000</div>
+   <p style="margin:0;color:var(--label)">a mais em receita, sem precisar de uma cliente nova.</p>
+   <label class="lbl" for="pct" style="letter-spacing:.12em">Arraste para simular o retorno</label>
+   <input id="pct" type="range" min="1" max="40" step="1" value="${pct}">
+   <div class="scale"><span>1%</span><span>10%</span><span>20%</span><span>30%</span><span>40%</span></div>
+   <div class="facts"><div><span class="lbl">Clientes que voltam</span><b class="num" id="cv">140</b></div><div><span class="lbl">Por mês, em 6 meses</span><b class="num" id="pm">R$ 3.500</b></div></div>
+  </div>
+ </div>
+ <div class="foot"><p class="say">${PHRASE2}</p><button class="btn solid" type="button" data-go="4">Ver os grupos →</button></div>`}
+function after4(){const r=$('#pct');r.addEventListener('input',()=>{pct=+r.value;upd4()});upd4()}
+function upd4(){
+ const back=Math.round(SUMIDOS*pct/100),v=back*TICKET;
+ $('#pv').textContent=pct;$('#mv').textContent=brl(v);$('#cv').textContent=back.toLocaleString('pt-BR');$('#pm').textContent=brl(v/6);
+ const c=$('#dots'),x=c.getContext('2d'),cols=50,rows=28,pad=18,s=(c.width-pad*2)/cols;
+ x.clearRect(0,0,c.width,c.height);
+ for(let i=0;i<SUMIDOS;i++){const cx=pad+(i%cols)*s,cy=pad+Math.floor(i/cols)*s+2;
+  // spread the returning ones evenly, not as a block
+  const on=((i*977)%SUMIDOS)<back;
+  if(on){x.fillStyle='#F2EFE7';x.fillRect(cx+2,cy+2,s-5,s-5)}
+  else{x.strokeStyle='rgba(184,177,162,.45)';x.lineWidth=1;x.setLineDash([2,2]);x.strokeRect(cx+2.5,cy+2.5,s-6,s-6);x.setLineDash([])}}
+}
+
+/* ---------- 5 ---------- */
+function s5(){return `
+ <span class="lbl">Grupos de clientes</span>
+ <h1>Quem é quem na sua base.</h1>
+ <p class="sub">Cada grupo pede uma ação diferente. O traço mostra o estado de cada um, do mesmo jeito que a Ground desenha um diagnóstico.</p>
+ <div class="groups">
+  <article class="grp fato"><header><h3>Fiéis</h3><span class="lbl">Fato</span></header><div class="n num">140<small>clientes</small></div><p>Três compras ou mais, a última nos últimos 60 dias.</p><span class="val">R$ 98.000 em compras acumuladas</span></article>
+  <article class="grp hip"><header><h3>Em risco</h3><span class="lbl">Hipótese</span></header><div class="n num">220<small>clientes</small></div><p>Já voltaram antes, mas não compram há mais de 60 dias. Ainda dá para recuperar.</p><span class="val">R$ 74.000 em compras acumuladas</span></article>
+  <article class="grp garg"><header><h3>Sumidos</h3><span class="lbl">Gargalo</span></header><div class="n num">1.400<small>clientes</small></div><p>Compraram uma vez, há mais de 90 dias, e nunca voltaram. É onde está o dinheiro parado.</p><span class="val">R$ 210.000 já pagos · potencial de volta</span></article>
+  <article class="grp vaz"><header><h3>Compra única recente</h3><span class="lbl">Sem informação</span></header><div class="n num">240<small>clientes</small></div><p>Compraram pela primeira vez nos últimos 90 dias. Ainda é cedo para dizer se vão voltar.</p><span class="val">R$ 36.000 em compras</span></article>
+ </div>
+ <div class="gram"><span><i class="a"></i>Fato: confirmado pelos dados</span><span><i class="b"></i>Hipótese: ainda pode mudar</span><span><i class="c"></i>Gargalo: onde o crescimento trava</span><span><i class="d"></i>Sem informação suficiente</span></div>
+ <div class="next-row"><button class="btn solid" type="button" data-go="5">Ver a missão da semana →</button></div>`}
+
+/* ---------- 6 ---------- */
+function s6(){return `
+ <span class="lbl">Missão da semana · 18 a 24 de novembro</span>
+ <h1><span class="num">180</span> clientes compraram whey há 45 dias, e o pote está acabando.</h1>
+ <p class="sub">Um pote de 900 g dura em média 40 a 50 dias. Mande esta mensagem para elas antes que comprem de outra marca.</p>
+ <div class="mission">
+  <div class="mcard">
+   <span class="lbl">Por que esta missão</span>
+   <ul><li>São clientes do grupo Em risco e de Compra única recente.</li><li>Todas compraram whey entre 1 e 10 de outubro.</li><li>Nenhuma recebeu cupom: a mensagem fala de cuidado, não de desconto.</li></ul>
+   <div class="est"><div><span class="lbl">Se 15% responderem</span><b class="num">27 pedidos</b></div><div><span class="lbl">Receita estimada</span><b class="num">R$ 4.050</b></div></div>
+   <span class="lbl" style="letter-spacing:.12em">Estimativa · hipótese a confirmar na próxima semana</span>
+  </div>
+  <div class="phone">
+   <div class="ph"><div class="avatar">F</div><div><b>Fôlego Nutrição</b><div class="lbl" style="letter-spacing:.1em">Prévia · WhatsApp</div></div></div>
+   <div class="bubble"><label for="wa" class="lbl" style="position:absolute;left:-9999px">Mensagem editável</label><textarea id="wa">${msg.replace(/</g,'&lt;')}</textarea></div>
+   <div class="meta">Editável · [nome] vira o nome de cada cliente</div>
+   <button class="btn solid" type="button" id="copy">Copiar mensagem</button>
+  </div>
+ </div>
+ <div class="closing"><p class="say big">${PHRASE2}</p>
+  ${loop(0).replace('margin:4px 0 26px','')}
+  <p class="sub" style="margin:0 0 6px">A missão não termina no envio. Na segunda, o Marco Zero pergunta como foi, mede na loja quem voltou e ajusta a próxima semana.</p>
+  <div class="next-row" style="margin-top:14px"><button class="btn solid" type="button" data-go="6">Uma semana depois: o check-in →</button></div>
+  <div class="invite"><span class="lbl">Gargalo estrutural?</span><a href="#" id="talk">Converse com a Ground →</a></div></div>`}
+
+/* ---------- 7 · check-in ---------- */
+function s7(){return `
+ <span class="lbl">Check-in · segunda, 25 de novembro</span>
+ <h1>Como foi a missão do whey?</h1>
+ <p class="sub">O Marco Zero mede sozinho o que a loja mostra. Só pergunta o que só você sabe: se a mensagem saiu, para quem, e o que as clientes responderam.</p>
+ ${loop(1)}
+ <div class="ci">
+  <div class="chat" id="chat" aria-live="polite">${chat()}</div>
+  <div class="side">
+   <div class="card fato"><div class="row"><h3>Medido pela loja</h3><span class="lbl">Fato · automático</span></div>
+    <ul><li>Quem das 180 clientes comprou de novo</li><li>Quando comprou e quanto gastou</li><li>Quem não recebeu a mensagem, para comparar</li></ul></div>
+   <div class="card hip"><div class="row"><h3>Contado por você</h3><span class="lbl">1 minuto</span></div>
+    <ul><li>Se a mensagem saiu, e para quantas</li><li>O que travou, se algo travou</li><li>As respostas das clientes, em print ou áudio</li></ul></div>
+   <p class="note">Também dá para responder pelo WhatsApp, quando o canal estiver ativo.</p>
+  </div>
+ </div>
+ <div class="next-row" id="ciNext" ${ciDone()?'':'hidden'}><button class="btn solid" type="button" data-go="7">Ver o resultado →</button></div>`}
+function ciDone(){return check==='all'?ciStep>=1:check?ciStep>=2:false}
+function chat(){
+ const t=(x,lab)=>`<div class="msg tool"><span class="lbl who">${lab||'Marco Zero'}</span>${x}</div>`, me=x=>`<div class="msg me">${x}</div>`;
+ const shots=`<div class="msg me"><div class="shots"><div class="shot"><b>Print 1</b>Respostas no WhatsApp</div><div class="shot"><b>Print 2</b>Mais respostas</div></div></div>`;
+ let h=t('Oi, Carla. Faz uma semana que saiu a missão do whey. Você conseguiu mandar a mensagem para as 180 clientes?');
+ if(!check) return h+`<div class="answers"><button class="btn solid" type="button" data-ci="all">Mandei para todas</button><button class="btn" type="button" data-ci="part">Mandei para uma parte</button><button class="btn" type="button" data-ci="none">Não consegui</button></div>`+composer();
+ h+=me(check==='all'?'Mandei para todas as 180.':check==='part'?'Mandei para 120. O resto ficou para trás.':'Não consegui mandar essa semana.');
+ if(check!=='all'){
+  h+=t(check==='part'?'Já é muita coisa. O que travou as outras 60?':'Tudo bem, acontece. O que travou?');
+  if(!reason) return h+`<div class="answers">${Object.entries(REASONS).map(([k,v])=>`<button class="btn" type="button" data-why="${k}">${v}</button>`).join('')}</div>`+composer();
+  h+=me(REASONS[reason]+'.');
+ }
+ if(check==='none') return h+t('Anotado. A próxima missão vai ser menor e mais fácil de encaixar na sua semana. E a oportunidade continua aberta: as 180 clientes seguem sem recompra.')+undo();
+ h+=t('Boa. Se tiver, me manda um print das respostas. Eu leio para você.');
+ h+=shots;
+ h+=t(`Li ${R().replies} respostas e cruzei com os pedidos da loja. O resultado está pronto.`);
+ return h+undo();
+}
+const composer=()=>`<div class="composer" aria-hidden="true"><span>Escreva, mande um áudio ou um print…</span><i>♪</i><i>⌗</i></div>`;
+const undo=()=>`<div class="answers"><button class="btn" type="button" data-ci="reset">Responder de outro jeito</button></div>`;
+
+/* ---------- 8 · resultado ---------- */
+function s8(){
+ if(!check) return `<span class="lbl">Resultado</span><h1>Primeiro, o check-in.</h1><p class="sub">Sem saber se a mensagem saiu, o Marco Zero não consegue separar o efeito da missão do acaso.</p><div class="next-row" style="justify-content:flex-start"><button class="btn solid" type="button" data-go="6">← Fazer o check-in</button></div>`;
+ if(check==='none') return `
+ <span class="lbl">Resultado · semana de 18 a 24 de novembro</span>
+ <h1>Sem envio, sem resultado. E isso também ensina.</h1>
+ <p class="sub">Mesmo sem a mensagem, a loja mostra quantas dessas clientes voltaram sozinhas. Esse número vira a régua para medir as próximas missões.</p>
+ ${loop(2)}
+ <div class="two">
+  <div class="card fato"><div class="row"><h3>Voltaram sozinhas</h3><span class="lbl">Fato</span></div><div class="money num">9</div><p>das 180 clientes compraram de novo sem nenhum contato: 5%. É o que acontece quando ninguém chama.</p></div>
+  <div class="card vaz"><div class="row"><h3>Efeito da mensagem</h3><span class="lbl">Sem informação</span></div><div class="money num" style="color:var(--sombra)">?</div><p>Fica para a próxima semana. Motivo registrado: ${REASONS[reason].toLowerCase()}.</p></div>
+ </div>
+ <div class="next-row"><button class="btn solid" type="button" data-go="8">Ver o ajuste →</button></div>`;
+ const r=R(), pct=x=>Math.round(x*100), rate=r.orders/r.sent;
+ return `
+ <span class="lbl">Resultado · semana de 18 a 24 de novembro</span>
+ <h1>A mensagem trouxe <span class="num">${r.orders}</span> pedidos. Sem ela, viriam <span class="num">${r.base}</span>.</h1>
+ <p class="sub">Cruzamos quem recebeu a mensagem com os pedidos da loja nos 7 dias seguintes. ${check==='part'?'As 60 clientes que ficaram sem mensagem viraram, sem querer, o grupo de comparação.':'Para comparar, usamos clientes parecidas que não receberam nenhum contato em outubro.'}</p>
+ ${loop(2)}
+ <div class="kpis">
+  <div class="kpi"><span class="lbl">Receberam</span><span class="v num">${r.sent}</span><span class="d">contado por você</span></div>
+  <div class="kpi"><span class="lbl">Voltaram a comprar</span><span class="v num">${r.orders}</span><span class="d">medido pela loja</span></div>
+  <div class="kpi"><span class="lbl">Receita da missão</span><span class="v num">${brl(r.rev)}</span><span class="d">sem cupom, sem anúncio</span></div>
+  <div class="kpi"><span class="lbl">Estimado × real</span><span class="v num">27 → ${r.orders}</span><span class="d">${check==='part'?'a estimativa era para 180 envios':'a estimativa era de 15%, veio '+pct(rate)+'%'}</span></div>
+ </div>
+ <div class="vs">
+  <span class="lbl">Quanto voltou, com e sem a mensagem</span>
+  <div class="vsrow"><span>Receberam a mensagem</span><span class="track"><i class="own" style="width:${pct(rate)*4}%"></i></span><b class="num">${pct(rate)}%</b></div>
+  <div class="vsrow"><span>${check==='part'?'Ficaram sem mensagem (60)':'Clientes parecidas, sem contato'}</span><span class="track"><i class="base" style="width:20%"></i></span><b class="num">5%</b></div>
+  <p class="lbl" style="margin:0;letter-spacing:.12em">+${r.extra} pedidos que não teriam acontecido · ${brl(r.extra*TICKET)} a mais</p>
+ </div>
+ <div class="three">
+  <div class="card fato"><div class="row"><h3>Funcionou</h3><span class="lbl">Fato</span></div>
+   <ul><li>Grupo Em risco: ${r.oRisk} de ${r.sRisk} voltaram (${pct(r.oRisk/r.sRisk)}%).</li><li>Sem cupom, o ticket ficou em R$ 158, acima dos R$ 131 de outubro com cupom.</li><li>Envios entre 19h e 21h tiveram o triplo de respostas.</li></ul></div>
+  <div class="card garg"><div class="row"><h3>Travou</h3><span class="lbl">Gargalo</span></div>
+   <ul><li>Compra única recente: só ${r.oUni} de ${r.sUni} voltaram (${pct(r.oUni/r.sUni)}%). “O seu sabor de sempre” não fala com quem comprou uma vez só.</li><li>7 respostas reclamaram do valor do frete.</li></ul></div>
+  <div class="card hip"><div class="row"><h3>Apareceu</h3><span class="lbl">Hipótese</span></div>
+   <ul><li>5 clientes perguntaram por um sabor novo (chocolate amargo).</li><li>3 disseram que compraram na loja física da academia.</li></ul></div>
+ </div>
+ <div class="next-row"><button class="btn solid" type="button" data-go="8">Ver o ajuste da próxima semana →</button></div>`}
+
+/* ---------- 9 · ajuste ---------- */
+const MSG_KEEP='Oi, [nome]! Aqui é a Carla, da Fôlego. Faz uns 40 dias que você levou o seu whey, então ele deve estar perto do fim.\n\nSeparei o seu sabor de sempre. Quer que eu reserve? É só responder aqui.';
+const MSG_FIX='Oi, [nome]! Aqui é a Carla, da Fôlego. Você provou o nosso whey há pouco tempo e eu queria saber: caiu bem?\n\nSe quiser provar outro sabor, te mando uma amostra junto com o próximo pedido.';
+function s9(){
+ const ran=check&&check!=='none', r=R();
+ const fixNote={tempo:'Como faltou tempo, a missão vem em 3 lotes de 50, um por dia, no fim da tarde.',contato:'Antes de enviar: 38 clientes estão sem telefone. Missão extra de 5 minutos: deixar o WhatsApp obrigatório no checkout da Nuvemshop.',receio:'Como bateu o receio de incomodar, a mensagem ficou ainda mais curta, e quem não responder não recebe outra.'}[reason]||'';
+ const keep=ran
+  ?{t:'Mesma mensagem, novo grupo',d:'Quem comprou whey entre 11 e 20 de outubro: 140 clientes do grupo Em risco. Mesmo texto, envio entre 19h e 21h.',m:MSG_KEEP}
+  :{t:'A mesma missão, menor',d:'Só as 60 clientes do grupo Em risco que compraram whey há mais tempo. Cabe em meia hora.',m:MSG_KEEP};
+ return `
+ <span class="lbl">Missão da semana · 25 de novembro a 1º de dezembro</span>
+ <h1>${ran?'Continuar o que deu certo. Consertar o que travou.':'Uma missão do tamanho da sua semana.'}</h1>
+ <p class="sub">${ran?'A missão nova nasce do resultado da anterior. O que funcionou se repete com outro grupo; o que travou muda de forma antes de voltar.':'Missão que não sai não ensina nada. Então a próxima fica menor, com o que travou já resolvido no desenho dela.'}</p>
+ ${loop(3)}
+ <div class="two">
+  <div class="card fato"><div class="row"><h3>Continua · ${keep.t}</h3><span class="lbl">${ran?'Deu certo':'Em aberto'}</span></div><p>${keep.d}</p><div class="mini">${keep.m.replace(/\n/g,'<br>')}</div>${fixNote&&!ran?`<p class="note">${fixNote}</p>`:''}</div>
+  ${ran?`<div class="card hip"><div class="row"><h3>Conserta · Compra única recente</h3><span class="lbl">Em teste</span></div><p>Sai o “sabor de sempre”, entra a pergunta sobre a primeira experiência e o convite para provar outro sabor. ${r.sUni} clientes.</p><div class="mini">${MSG_FIX.replace(/\n/g,'<br>')}</div>${fixNote?`<p class="note">${fixNote}</p>`:''}</div>`
+  :`<div class="card vaz"><div class="row"><h3>Conserta · fica para depois</h3><span class="lbl">Sem informação</span></div><p>Sem o resultado da primeira missão, ainda não dá para saber o que consertar. Uma missão por vez.</p></div>`}
+ </div>
+ <span class="lbl" style="display:block;margin-top:34px">O que o Marco Zero já sabe sobre a sua base</span>
+ <div class="learn">
+  <div><i class="${ran?'a':'b'}"></i><span>Mensagem de cuidado, sem cupom, traz cliente de volta.</span><small>${ran?'Fato · testado 1×':'Hipótese · testar'}</small></div>
+  <div><i class="${ran?'b':'d'}"></i><span>Envio à noite tem mais resposta.</span><small>${ran?'Hipótese · repetir':'Sem informação'}</small></div>
+  <div><i class="${ran?'c':'d'}"></i><span>“Sabor de sempre” não funciona com quem comprou uma vez.</span><small>${ran?'Ajustado':'Sem informação'}</small></div>
+  <div><i class="${ran?'b':'d'}"></i><span>O frete aparece nas respostas das clientes.</span><small>${ran?'1ª semana · observar':'Sem informação'}</small></div>
+  ${reason?`<div><i class="a"></i><span>O que trava a execução: ${REASONS[reason].toLowerCase()}.</span><small>Considerado no ajuste</small></div>`:''}
+ </div>
+ ${ran?`<div class="vs"><span class="lbl">Receita construída, a parte que é sua</span><div class="progress-own"><b class="num">30%</b><span class="lbl">→</span><b class="num">32%</b><span style="color:var(--label);font-size:14px">em uma semana, com ${r.orders} clientes que voltaram.</span></div></div>`:''}
+ <div class="closing">
+  <p class="say">${ran?'Se o frete aparecer nas respostas por três semanas seguidas, deixa de ser uma missão. Vira um assunto de estrutura.':'Se a missão travar três semanas seguidas, o problema não é a mensagem. É a operação, e aí vale uma conversa.'}</p>
+  <div class="invite"><span class="lbl">Gargalo estrutural?</span><a href="#" data-toast="Na versão real, abre a conversa com a Ground">Converse com a Ground →</a></div>
+ </div>`}
+function after6(){
+ $('#wa').addEventListener('input',e=>{msg=e.target.value});
+ $('#copy').addEventListener('click',()=>{const t=$('#wa').value;const ok=()=>toast('Mensagem copiada');try{navigator.clipboard.writeText(t).then(ok,()=>{$('#wa').select();toast('Selecionada: copie com Ctrl+C')})}catch(e){$('#wa').select();toast('Selecionada: copie com Ctrl+C')}});
+ $('#talk').addEventListener('click',e=>{e.preventDefault();toast('Na versão real, abre a conversa com a Ground')});
+}
+function toast(t){$('#toastHost').innerHTML=`<div class="toast" role="status">${t}</div>`;setTimeout(()=>{$('#toastHost').innerHTML=''},1800)}
+
+/* ---------- nav ---------- */
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-go],[data-merge],[data-ci],[data-why],[data-toast]');if(!b)return;
+ if(b.dataset.go!==undefined){go(+b.dataset.go);return}
+ if(b.dataset.toast){e.preventDefault();toast(b.dataset.toast);return}
+ if(b.dataset.ci||b.dataset.why){
+  if(b.dataset.ci==='reset'){check=null;reason=null;ciStep=0}
+  else if(b.dataset.ci){check=b.dataset.ci;reason=null;ciStep=1}
+  else{reason=b.dataset.why;ciStep=2}
+  $('#chat').innerHTML=chat();$('#ciNext').hidden=!ciDone();return}
+ const m=b.dataset.merge;merged=m==='reset'?null:m==='1';$('#doubt').innerHTML=doubt();
+});
+$('#prev').addEventListener('click',()=>go(cur-1));
+$('#next').addEventListener('click',()=>go(cur===S.length-1?0:cur+1));
+document.addEventListener('keydown',e=>{if(e.target.closest('textarea,input'))return;if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+function fromHash(){const i=S.findIndex(s=>'#'+s.id===location.hash);return i<0?0:i}
+window.addEventListener('hashchange',()=>{const i=fromHash();if(i!==cur)go(i,true)});
+go(fromHash(),true);
+</script>
+
+</body></html>
